@@ -89,10 +89,10 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Run the `rainfall-linear-regression.py` file:
+4. Run the `train.py` file:
 
 ```
-python rainfall-linear-regression.py
+python train.py
 ```
 
 **Experiment**
