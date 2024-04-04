@@ -1,40 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <p>🌦️</p>
+          <h1>Rainfall Prediction in Bangkok</h1>
+          <p>⛈️</p>
+        </section>
+        <section>
+          <section>
+            <iframe
+              src="https://weather.bangkok.go.th/rain"
+              width="80%"
+              height="400px"
+            ></iframe>
+            <p style="font-size: small">
+              The data used in this project was scraped from the
+              <a href="https://weather.bangkok.go.th/rain" target="_blank"
+                >Bangkok website</a
+              >
+            </p>
+          </section>
+          <section>
+            <p>contains rainfall measurements for 311,211 rows</p>
+            <p>from 02/01/2564 08:20 to 18/02/2566 16:50</p>
+          </section>
+        </section>
+        <section data-auto-animate>
+					<section>
+						Main program
+					</section>
+					<section>
+          <pre data-id="code-animation">
+						<code data-line-numbers="2-4|13-14|7-10,13-14|16|18-20|24-29|33|38-39|41|41-42">
+df = pd.concat([pd.read_csv(
+		os.path.join('data', p)
+) for p in os.listdir('data')])  # .sample(2_000)
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+
+def replace_year(string):
+		y = string[6:10]
+		y = str(int(y) - 543)
+		return string[:6] + y + string[10:]
+
+
+df.loc[:, 'time'] = pd.to_datetime(
+		df['วัน-เวลา'].apply(replace_year), format='%d/%m/%Y %H:%M')
+
+df = df.sort_values('time')
+
+grouped = df.groupby(
+		['เขต', pd.Grouper(key="time", freq='30min')]
+)['ฝน 30 นาที'].max()
+
+prev_time_len = 5
+chunks = []
+for i in trange(len(grouped.index)-prev_time_len, desc='Building data chunks'):
+		if not grouped[i:i+prev_time_len].isna().any():
+				indices = grouped[i:i+prev_time_len].index
+				chunks.append(
+						grouped[indices].values
+				)
+
+print('Total data points is', len(chunks))
+
+data = np.array(chunks)
+
+X = data[:, :prev_time_len-1]
+y = data[:, prev_time_len-1]
+
+X_train, X_test, y_train, y_test = train_test_split(
+		X, y, test_size=0.2)
+
+my_reg = MyLinearRegression(0.0003)\
+	.fit(X_train, y_train, iteration=8000)
+
+print('Mean absolute error', mean_absolute_error(my_reg.predict(X_test), y_test))
+					</code>
+				</pre>
+        </section>
+        </section>
+        <section>
+					<section>
+						The <code>train_test_split</code> function
+					</section>
+          <section>
+            <pre>
+<code data-line-numbers="1|2|6|7-8|9|10-13|15-16|6|18-21|23">def train_test_split(X, y, test_size=0.1):
+		hist, bin_adges = np.histogram(y, bins='auto')
+
+		train_mask = []
+		test_mask = []
+		for i, edge in enumerate(bin_adges):
+				if i == 0:
+						continue
+				indices, = np.where((bin_adges[i - 1] <= y) & (y < edge))
+				num_test = int(len(indices) * test_size)
+				np.random.shuffle(indices)
+				test_indices = indices[:num_test]
+				train_indices = indices[num_test:]
+
+				train_mask += list(train_indices)
+				test_mask += list(test_indices)
+
+		X_train = X[train_mask]
+		X_test = X[test_mask]
+		y_train = y[train_mask]
+		y_test = y[test_mask]
+
+		return X_train, X_test, y_train, y_test</code></pre>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
 </html>
