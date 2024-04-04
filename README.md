@@ -99,19 +99,19 @@ python train.py
 
 The project uses a linear regression model to predict rainfall. The model is trained using the historical rainfall data and evaluated using the mean squared error (MSE). The MSE is calculated as follows:
 
-```
+```python
 MSE = np.mean((self.y - self.x @ w)**2)
 ```
 
 The weights of the model are updated using the following formula:
 
-```
+```python
 w = w + (-1 * lr * gradient(w))
 ```
 
 The gradient of the MSE with respect to the weights is calculated as follows:
 
-```
+```python
 grad_v[:-1] = -2 / self.x.shape[0] * np.sum(self.x[:, :-1] * errors[:, None], axis=0)
 grad_v[-1]  = -2 / self.x.shape[0] * np.sum(predictions)
 ```
