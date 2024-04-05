@@ -1,55 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
 
-    <title>reveal.js</title>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <link rel="stylesheet" href="dist/reset.css" />
-    <link rel="stylesheet" href="dist/reveal.css" />
-    <link rel="stylesheet" href="dist/theme/serif.css" />
+	<title>Rainfall Prediction in Bangkok</title>
 
-    <!-- Theme used for syntax highlighted code -->
-    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
-  </head>
+	<link rel="stylesheet" href="dist/reset.css" />
+	<link rel="stylesheet" href="dist/reveal.css" />
+	<link rel="stylesheet" href="dist/theme/serif.css" />
 
-  <body>
-    <div class="reveal">
-      <div class="slides">
-        <section>
-          <p>🌦️</p>
-          <h1>Rainfall Prediction in Bangkok</h1>
-          <p>⛈️</p>
-        </section>
-        <section>
-          <section>
-            <iframe
-              src="https://weather.bangkok.go.th/rain"
-              width="80%"
-              height="400px"
-            ></iframe>
-            <p style="font-size: small">
-              The data used in this project was scraped from the
-              <a href="https://weather.bangkok.go.th/rain" target="_blank"
-                >Bangkok website</a
-              >
-            </p>
-          </section>
-          <section>
-            <p>contains rainfall measurements for 311,211 rows</p>
-            <p>from 02/01/2564 08:20 to 18/02/2566 16:50</p>
-          </section>
-        </section>
-        <section data-auto-animate>
-					<section>
-						Main program
-					</section>
-					<section>
-          <pre data-id="code-animation">
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" />
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<p>🌦️</p>
+				<h1>Rainfall Prediction in Bangkok</h1>
+				<p>⛈️</p>
+			</section>
+			<section>
+				<section>
+					<iframe src="https://weather.bangkok.go.th/rain" width="80%" height="400px"></iframe>
+					<p style="font-size: small">
+						The data used in this project was scraped from the
+						<a href="https://weather.bangkok.go.th/rain" target="_blank">Bangkok website</a>
+					</p>
+				</section>
+				<section>
+					<p>contains rainfall measurements for 311,211 rows</p>
+					<p>from 02/01/2564 08:20 to 18/02/2566 16:50</p>
+				</section>
+				<section>
+					<div style="overflow-y: scroll;max-height: 80%;">
+						<table>
+							<thead>
+								<tr>
+									<th>District</th>
+									<th>Number of Rows</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>หนองจอก</td>
+									<td>16679</td>
+								</tr>
+								<tr>
+									<td>มีนบุรี</td>
+									<td>12076</td>
+								</tr>
+								<tr>
+									<td>คลองเตย</td>
+									<td>11711</td>
+								</tr>
+								<tr>
+									<td>บางซื่อ</td>
+									<td>11186</td>
+								</tr>
+								<tr>
+									<td>บางแค</td>
+									<td>9942</td>
+								</tr>
+								<tr>
+									<td>ทวีวัฒนา</td>
+									<td>9520</td>
+								</tr>
+								<tr>
+									<td>ราชเทวี</td>
+									<td>9177</td>
+								</tr>
+								<tr>
+									<td>พระโขนง</td>
+									<td>9156</td>
+								</tr>
+								<tr>
+									<td>บางขุนเทียน</td>
+									<td>8921</td>
+								</tr>
+								<tr>
+									<td>จตุจักร</td>
+									<td>8773</td>
+								</tr>
+								<tr>
+									<td>ภาษีเจริญ</td>
+									<td>8770</td>
+								</tr>
+								<tr>
+									<td>สายไหม</td>
+									<td>8748</td>
+								</tr>
+								<tr>
+									<td>บางนา</td>
+									<td>8330</td>
+								</tr>
+								<tr>
+									<td>วังทองหลาง</td>
+									<td>8254</td>
+								</tr>
+								<tr>
+									<td>พระนคร</td>
+									<td>8073</td>
+								</tr>
+								<tr>
+									<td>ตลิ่งชัน</td>
+									<td>7739</td>
+								</tr>
+								<tr>
+									<td>ประเวศ</td>
+									<td>7678</td>
+								</tr>
+								<tr>
+									<td>ยานนาวา</td>
+									<td>7603</td>
+								</tr>
+								<tr>
+									<td>จอมทอง</td>
+									<td>7227</td>
+								</tr>
+								<tr>
+									<td>ธนบุรี</td>
+									<td>7125</td>
+								</tr>
+								<tr>
+									<td>หลักสี่</td>
+									<td>6397</td>
+								</tr>
+								<tr>
+									<td>สะพานสูง</td>
+									<td>5959</td>
+								</tr>
+								<tr>
+									<td>วัฒนา</td>
+									<td>5863</td>
+								</tr>
+								<tr>
+									<td>ดุสิต</td>
+									<td>5707</td>
+								</tr>
+								<tr>
+									<td>ห้วยขวาง</td>
+									<td>5594</td>
+								</tr>
+								<tr>
+									<td>ปทุมวัน</td>
+									<td>5525</td>
+								</tr>
+								<tr>
+									<td>บางกอกน้อย</td>
+									<td>5453</td>
+								</tr>
+								<tr>
+									<td>คลองสาน</td>
+									<td>5390</td>
+								</tr>
+								<tr>
+									<td>สาทร</td>
+									<td>5324</td>
+								</tr>
+								<tr>
+									<td>บางรัก</td>
+									<td>5249</td>
+								</tr>
+								<tr>
+									<td>บางคอแหลม</td>
+									<td>5196</td>
+								</tr>
+								<tr>
+									<td>ราษฏร์บูรณะ</td>
+									<td>5076</td>
+								</tr>
+								<tr>
+									<td>คลองสามวา</td>
+									<td>4990</td>
+								</tr>
+								<tr>
+									<td>ทุ่งครุ</td>
+									<td>4766</td>
+								</tr>
+								<tr>
+									<td>ลาดกระบัง</td>
+									<td>4502</td>
+								</tr>
+								<tr>
+									<td>สวนหลวง</td>
+									<td>3647</td>
+								</tr>
+								<tr>
+									<td>บางเขน</td>
+									<td>3475</td>
+								</tr>
+								<tr>
+									<td>บางกอกใหญ่</td>
+									<td>3449</td>
+								</tr>
+								<tr>
+									<td>หนองแขม</td>
+									<td>3276</td>
+								</tr>
+								<tr>
+									<td>พญาไท</td>
+									<td>3245</td>
+								</tr>
+								<tr>
+									<td>ดินแดง</td>
+									<td>3048</td>
+								</tr>
+								<tr>
+									<td>คันนายาว</td>
+									<td>2982</td>
+								</tr>
+								<tr>
+									<td>ป้อมปราบฯ</td>
+									<td>2922</td>
+								</tr>
+								<tr>
+									<td>บางบอน</td>
+									<td>2860</td>
+								</tr>
+								<tr>
+									<td>บึงกุ่ม</td>
+									<td>2853</td>
+								</tr>
+								<tr>
+									<td>บางกะปิ</td>
+									<td>2790</td>
+								</tr>
+								<tr>
+									<td>สัมพันธวงศ์</td>
+									<td>2775</td>
+								</tr>
+								<tr>
+									<td>บางพลัด</td>
+									<td>2731</td>
+								</tr>
+								<tr>
+									<td>ดอนเมือง</td>
+									<td>2498</td>
+								</tr>
+								<tr>
+									<td>ลาดพร้าว</td>
+									<td>981</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</section>
+			<section>
+				Series of past predict a future 🔮
+			</section>
+			<section data-auto-animate>
+				<section>
+					Main program
+				</section>
+				<section>
+					<pre data-id="code-animation">
 						<code data-line-numbers="2-4|13-14|7-10,13-14|16|18-20|24-29|33|38-39|41|41-42">
 df = pd.concat([pd.read_csv(
 		os.path.join('data', p)
@@ -96,14 +305,14 @@ my_reg = MyLinearRegression(0.0003)\
 print('Mean absolute error', mean_absolute_error(my_reg.predict(X_test), y_test))
 					</code>
 				</pre>
-        </section>
-        </section>
-        <section>
-					<section>
-						The <code>train_test_split</code> function
-					</section>
-          <section>
-            <pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					The <code>train_test_split</code> function
+				</section>
+				<section>
+					<pre>
 <code data-line-numbers="1|2|6|7-8|9|10-13|15-16|6|18-21|23">def train_test_split(X, y, test_size=0.1):
 		hist, bin_adges = np.histogram(y, bins='auto')
 
@@ -127,13 +336,13 @@ print('Mean absolute error', mean_absolute_error(my_reg.predict(X_test), y_test)
 		y_test = y[test_mask]
 
 		return X_train, X_test, y_train, y_test</code></pre>
-          </section>
-        </section>
+				</section>
+			</section>
 
+			<section>
+				<section>Linear Regression Model</section>
 				<section>
-					<section>Linear Regression Model</section>
-					<section>
-						<pre>
+					<pre>
 <code data-line-numbers="4-8|11-43|46-69|71-91|93-103|105-118|11|25|28|37|40|40-41|46|57|71|82|84|85|87|89|91|57|60,63|93|103|40|43">class MyLinearRegression:
     
 	# Class constructor
@@ -254,35 +463,44 @@ print('Mean absolute error', mean_absolute_error(my_reg.predict(X_test), y_test)
 			return x @ self.w
 </code>
 						</pre>
-					</section>
 				</section>
+			</section>
 
-				<section>
-					<p>Training Loss (Mean squared error)</p>
-					<img src="images/trainingloss-graph.png" width="300px" alt="Training loss" srcset="">
-				</section>
+			<section>
+				<p>Training Loss (Mean squared error)</p>
+				<img src="images/trainingloss-graph.png" width="300px" alt="Training loss" srcset="">
+			</section>
 
-				<section>
-					<span style="font-size:medium;">Result</span>
-					<p>Mean absolute error <strong>3.473</strong></p>
-				</section>
-      </div>
-    </div>
+			<section>
+				<span style="font-size:medium;">Result</span>
+				<p>Mean absolute error <strong>3.473</strong></p>
+			</section>
 
-    <script src="dist/reveal.js"></script>
-    <script src="plugin/notes/notes.js"></script>
-    <script src="plugin/markdown/markdown.js"></script>
-    <script src="plugin/highlight/highlight.js"></script>
-    <script>
-      // More info about initialization & config:
-      // - https://revealjs.com/initialization/
-      // - https://revealjs.com/config/
-      Reveal.initialize({
-        hash: true,
+			<section>
+				<p>Improvements</p>
+				<ul>
+					<li>Add other relevent features (e.g. Month)</li>
+					<li>Using deep learning model</li>
+				</ul>
+			</section>
+		</div>
+	</div>
 
-        // Learn about plugins: https://revealjs.com/plugins/
-        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
-      });
-    </script>
-  </body>
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			slideNumber: true,
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+		});
+	</script>
+</body>
+
 </html>
